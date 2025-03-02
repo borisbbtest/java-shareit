@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
     }
 
     @Getter
-    static private class ErrorResponse {
+   private static class ErrorResponse {
         private final String error;
 
         public ErrorResponse(String error) {

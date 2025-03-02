@@ -1,9 +1,7 @@
 package ru.practicum.shareit.booking.model;
 
 import lombok.Data;
-import lombok.Setter;
 import ru.practicum.shareit.booking.utils.BookingStatus;
-
 import java.time.LocalDateTime;
 
 @Data
