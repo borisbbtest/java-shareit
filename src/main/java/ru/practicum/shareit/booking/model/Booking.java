@@ -13,11 +13,5 @@ public class Booking {
     private Long bookerId;  // ID пользователя, который бронирует
     private LocalDateTime start;
     private LocalDateTime end;
-    @Setter
     private BookingStatus status;
-
-    public BookingStatus getStatus(BookingStatus status) {
-        return status;
-    }
-
 }
