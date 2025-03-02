@@ -30,23 +30,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MPAException.class)
-    public ResponseEntity<ErrorResponse> handleMPAExceptionn(Exception e) {
-        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(GenreException.class)
-    public ResponseEntity<ErrorResponse> handleGenreException(Exception e) {
-        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(GenreNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleGenreNotFoundException(Exception e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @Getter
-    static class ErrorResponse {
+    static private class ErrorResponse {
         private final String error;
 
         public ErrorResponse(String error) {
