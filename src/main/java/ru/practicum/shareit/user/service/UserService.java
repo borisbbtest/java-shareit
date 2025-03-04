@@ -28,12 +28,14 @@ public class UserService {
         return UserMapper.toDto(user);
     }
 
+    @Transactional(readOnly = true)
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(UserMapper::toDto)
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public Optional<UserDto> getUserById(Long id) {
         return userRepository.findById(id).map(UserMapper::toDto);
     }

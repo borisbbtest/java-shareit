@@ -51,17 +51,13 @@ public class BookingService {
         if (bookingDto.getStart().isAfter(bookingDto.getEnd())) {
             throw new IllegalArgumentException("Start time must be before end time");
         }
-//        if (bookingDto.getStart().isBefore(LocalDateTime.now())) {
-//            throw new IllegalArgumentException("Start time cannot be in the past");
-//        }
 
         var booking = BookingMapper.toEntity(bookingDto, item, booker);
         booking.setStatus(BookingStatus.WAITING);
         return BookingMapper.toDto(bookingRepository.save(booking));
     }
 
-
-
+    @Transactional(readOnly = true)
     public BookingDto approveBooking(Long bookingId, Boolean approved, Long ownerId) {
         var booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new DuplicateException("Booking not found"));
@@ -74,6 +70,7 @@ public class BookingService {
         return BookingMapper.toDto(bookingRepository.save(booking));
     }
 
+    @Transactional(readOnly = true)
     public BookingDto getBookingById(Long bookingId, Long userId) {
         var booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new DuplicateException("Booking not found"));
@@ -85,10 +82,12 @@ public class BookingService {
         return BookingMapper.toDto(booking);
     }
 
+    @Transactional(readOnly = true)
     public List<BookingDto> getUserBookings(Long userId, String state) {
         return filterBookings(bookingRepository.findByBookerIdOrderByStartTimeDesc(userId), state);
     }
 
+    @Transactional(readOnly = true)
     public List<BookingDto> getOwnerBookings(Long ownerId, String state) {
         // Проверяем, существует ли владелец
         if (!userRepository.existsById(ownerId)) {
@@ -105,6 +104,7 @@ public class BookingService {
         return filterBookings(bookings, state);
     }
 
+    @Transactional(readOnly = true)
     private List<BookingDto> filterBookings(List<Booking> bookings, String state) {
         return bookings.stream()
                 .filter(booking -> state.equals("ALL") || booking.getStatus().name().equalsIgnoreCase(state))

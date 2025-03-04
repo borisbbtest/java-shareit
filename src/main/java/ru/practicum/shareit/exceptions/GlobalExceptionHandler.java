@@ -30,11 +30,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(GenreNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleGenreNotFoundException(Exception e) {
-        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
-    }
-
     @Getter
    private static class ErrorResponse {
         private final String error;

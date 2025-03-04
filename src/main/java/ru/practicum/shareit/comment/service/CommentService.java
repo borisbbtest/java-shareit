@@ -51,6 +51,7 @@ public class CommentService {
         return CommentMapper.toDto(commentRepository.save(comment));
     }
 
+    @Transactional(readOnly = true)
     public List<CommentDto> getCommentsByItem(Long itemId) {
         return commentRepository.findByItemId(itemId).stream()
                 .map(CommentMapper::toDto)

@@ -36,7 +36,7 @@ public class ItemService {
         this.commentRepository = commentRepository;
     }
 
-    // ✅ Создание предмета
+    // Создание предмета
     public ItemDto createItem(ItemDto itemDto, Long userId) {
         User owner = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User with ID " + userId + " does not exist"));
@@ -47,7 +47,7 @@ public class ItemService {
         return ItemMapper.toDto(item, null, null, List.of());
     }
 
-    // ✅ Обновление предмета
+    // Обновление предмета
     public ItemDto updateItem(Long itemId, ItemDto itemDto, Long userId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Item not found"));
@@ -64,7 +64,8 @@ public class ItemService {
         return ItemMapper.toDto(item, null, null, List.of());
     }
 
-    // ✅ Получение предмета по ID
+    //  Получение предмета по ID
+    @Transactional(readOnly = true)
     public ItemDto getItemById(Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Item not found"));
@@ -86,7 +87,8 @@ public class ItemService {
         return ItemMapper.toDto(item, lastBooking, nextBooking, comments);
     }
 
-    // ✅ Получение всех предметов владельца
+    // Получение всех предметов владельца
+    @Transactional(readOnly = true)
     public List<ItemDto> getAllItemsByOwner(Long userId) {
         return itemRepository.findByOwnerId(userId).stream()
                 .map(item -> {
@@ -104,7 +106,8 @@ public class ItemService {
                 .collect(Collectors.toList());
     }
 
-    // ✅ Поиск предметов по названию или описанию
+    //Поиск предметов по названию или описанию
+    @Transactional(readOnly = true)
     public List<ItemDto> searchItems(String text) {
         if (text == null || text.isBlank()) {
             return List.of();
