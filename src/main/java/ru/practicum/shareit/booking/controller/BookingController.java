@@ -1,8 +1,9 @@
 package ru.practicum.shareit.booking.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.serivce.BookingService;
+import ru.practicum.shareit.booking.service.BookingService;
 
 import java.util.List;
 
@@ -15,29 +16,39 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    //  Создание нового бронирования
     @PostMapping
-    public BookingDto createBooking(@RequestBody BookingDto bookingDto) {
-        return bookingService.createBooking(bookingDto);
+    public ResponseEntity<BookingDto> createBooking(@RequestBody BookingDto bookingDto,
+                                                    @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return ResponseEntity.ok(bookingService.createBooking(bookingDto, userId));
     }
 
+    //  Подтверждение или отклонение бронирования
+    @PatchMapping("/{bookingId}")
+    public ResponseEntity<BookingDto> approveBooking(@PathVariable Long bookingId,
+                                                     @RequestParam Boolean approved,
+                                                     @RequestHeader("X-Sharer-User-Id") Long ownerId) {
+        return ResponseEntity.ok(bookingService.approveBooking(bookingId, approved, ownerId));
+    }
+
+    //  Получение данных о конкретном бронировании
+    @GetMapping("/{bookingId}")
+    public ResponseEntity<BookingDto> getBooking(@PathVariable Long bookingId,
+                                                 @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return ResponseEntity.ok(bookingService.getBookingById(bookingId, userId));
+    }
+
+    // Получение списка всех бронирований текущего пользователя
     @GetMapping
-    public List<BookingDto> getAllBookings() {
-        return bookingService.getAllBookings();
+    public ResponseEntity<List<BookingDto>> getUserBookings(@RequestParam(defaultValue = "ALL") String state,
+                                                            @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return ResponseEntity.ok(bookingService.getUserBookings(userId, state));
     }
 
-    @GetMapping("/{id}")
-    public BookingDto getBookingById(@PathVariable Long id) {
-        return bookingService.getBookingById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-    }
-
-    @PatchMapping("/{id}/approve")
-    public BookingDto approveBooking(@PathVariable Long id, @RequestParam boolean approved) {
-        return bookingService.approveBooking(id, approved);
-    }
-
-    @DeleteMapping("/{id}/cancel")
-    public void cancelBooking(@PathVariable Long id) {
-        bookingService.cancelBooking(id);
+    //  Получение списка бронирований для всех вещей текущего пользователя
+    @GetMapping("/owner")
+    public ResponseEntity<List<BookingDto>> getOwnerBookings(@RequestParam(defaultValue = "ALL") String state,
+                                                             @RequestHeader("X-Sharer-User-Id") Long ownerId) {
+        return ResponseEntity.ok(bookingService.getOwnerBookings(ownerId, state));
     }
 }
