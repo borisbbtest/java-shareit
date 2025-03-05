@@ -3,7 +3,7 @@ package ru.practicum.shareit.item.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import ru.practicum.shareit.booking.dto.BookItemRequestDto;
+import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.comment.dto.CommentDto;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class ItemDto {
     private Long requestId;
 
     // Поля для отображения бронирования и комментариев
-    private BookItemRequestDto lastBooking;
-    private BookItemRequestDto nextBooking;
+    private BookingDto lastBooking;
+    private BookingDto nextBooking;
     private List<CommentDto> comments;
 }

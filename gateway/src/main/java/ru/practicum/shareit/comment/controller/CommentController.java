@@ -23,7 +23,7 @@ public class CommentController {
                                              @RequestHeader("X-Sharer-User-Id") Long userId,
                                              @RequestBody @Valid CommentDto commentDto) {
         log.info("Adding comment for item {}, userId={}", itemId, userId);
-        return commentClient.addComment(itemId, userId, commentDto);
+        return commentClient.addComment(userId, itemId, commentDto);
     }
 
     /**

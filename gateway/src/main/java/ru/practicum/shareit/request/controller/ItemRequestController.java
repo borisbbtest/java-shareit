@@ -20,9 +20,7 @@ public class ItemRequestController {
      * Создать новый запрос на вещь
      */
     @PostMapping
-    public ResponseEntity<Object> createRequest(
-            @RequestHeader("X-Sharer-User-Id") Long userId,
-            @Valid @RequestBody ItemRequestDto requestDto) {
+    public ResponseEntity<Object> createRequest(@RequestHeader("X-Sharer-User-Id") Long userId, @Valid @RequestBody ItemRequestDto requestDto) {
         log.info("Creating new item request from user {}", userId);
         return itemRequestClient.createRequest(userId, requestDto);
     }
@@ -31,8 +29,7 @@ public class ItemRequestController {
      * Получить список своих запросов
      */
     @GetMapping
-    public ResponseEntity<Object> getUserRequests(
-            @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public ResponseEntity<Object> getUserRequests(@RequestHeader("X-Sharer-User-Id") Long userId) {
         log.info("Getting item requests for user {}", userId);
         return itemRequestClient.getUserRequests(userId);
     }
@@ -41,8 +38,7 @@ public class ItemRequestController {
      * Получить список всех запросов от других пользователей
      */
     @GetMapping("/all")
-    public ResponseEntity<Object> getAllRequests(
-            @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public ResponseEntity<Object> getAllRequests(@RequestHeader("X-Sharer-User-Id") Long userId) {
         log.info("Getting all item requests for user {}", userId);
         return itemRequestClient.getAllRequests(userId);
     }
@@ -51,9 +47,7 @@ public class ItemRequestController {
      * Получить запрос по ID
      */
     @GetMapping("/{requestId}")
-    public ResponseEntity<Object> getRequestById(
-            @RequestHeader("X-Sharer-User-Id") Long userId,
-            @PathVariable Long requestId) {
+    public ResponseEntity<Object> getRequestById(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long requestId) {
         log.info("Getting item request {} for user {}", requestId, userId);
         return itemRequestClient.getRequestById(userId, requestId);
     }
