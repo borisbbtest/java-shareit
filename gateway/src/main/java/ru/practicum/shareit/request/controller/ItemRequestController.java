@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.request.service.ItemRequestClient;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/requests")
