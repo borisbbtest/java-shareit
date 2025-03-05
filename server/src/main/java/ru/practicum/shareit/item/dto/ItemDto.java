@@ -10,7 +10,6 @@ import ru.practicum.shareit.comment.dto.CommentDto;
 
 import java.util.List;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,4 +34,5 @@ public class ItemDto {
     private BookingDto nextBooking;
 
     private List<CommentDto> comments;
+
 }
