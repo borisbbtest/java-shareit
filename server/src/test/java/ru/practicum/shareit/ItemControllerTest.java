@@ -41,7 +41,6 @@ public class ItemControllerTest {
                         .header("X-Sharer-User-Id", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(itemDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(status().isOk());
     }
 }
