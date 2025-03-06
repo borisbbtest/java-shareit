@@ -11,29 +11,24 @@ import java.util.stream.Collectors;
 public class ItemRequestMapper {
 
     public static ItemRequestDto toDto(ItemRequest request, List<Item> items) {
-        ItemRequestDto dto = new ItemRequestDto();
-        dto.setId(request.getId());
-        dto.setDescription(request.getDescription());
-        dto.setCreated(request.getCreated());
-
-        // ✅ Используем конструктор без аргументов + сеттеры
-        List<ItemDto> itemDtos = items.stream()
-                .map(item -> {
-                    ItemDto itemDto = new ItemDto();
-                    itemDto.setId(item.getId());
-                    itemDto.setName(item.getName());
-                    itemDto.setDescription(item.getDescription());
-                    itemDto.setAvailable(item.getAvailable());
-                    itemDto.setOwnerId(item.getOwner().getId());
-                    itemDto.setLastBooking(null);
-                    itemDto.setNextBooking(null);
-                    itemDto.setComments(List.of()); // пустой список
-                    return itemDto;
-                })
-                .collect(Collectors.toList());
-
-        dto.setItems(itemDtos);
-        return dto;
+        return ItemRequestDto.builder()
+                .id(request.getId())
+                .description(request.getDescription())
+                .created(request.getCreated())
+                .items(items.stream()
+                        .map(item -> ItemDto.builder()
+                                .id(item.getId())
+                                .name(item.getName())
+                                .description(item.getDescription())
+                                .available(item.getAvailable())
+                                .ownerId(item.getOwner().getId())
+                                .lastBooking(null)
+                                .nextBooking(null)
+                                .comments(List.of())
+                                .build()
+                        )
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     public static ItemRequest toEntity(ItemRequestDto dto) {
